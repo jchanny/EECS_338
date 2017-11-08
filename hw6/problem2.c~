@@ -1,0 +1,21 @@
+#include <unistd.h>
+#include <sys/types.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <fcntl.h>
+#include <sys/shm.h>
+#include <sys/stat.h>
+#include <sys/mman.h>
+#include <errno.h>      
+#include <pthread.h>    
+#include <semaphore.h>
+
+int *runner(){
+	return 0;
+}
+
+int main(){
+	return 0;
+}
+

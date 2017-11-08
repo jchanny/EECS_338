@@ -1,0 +1,4 @@
+all: problem1 problem2
+
+problem1:
+	-gcc -o problem1 problem1.c -pthread

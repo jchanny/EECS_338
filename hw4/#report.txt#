@@ -1,0 +1,80 @@
+Jeremy Chan
+EECS 338
+Oct 2
+HW4
+TA #1
+
+1. Correct input:
+jeremy@thinkbae:~/Documents/EECS_338/hw4$ ./server
+Listening for client...
+Client connected.
+Client was correct
+jeremy@thinkbae:~/Documents/EECS_338/hw4$ ./client
+What is both an eating utensil and a unix call?
+fork
+Correct!
+
+Wrong input:
+jeremy@thinkbae:~/Documents/EECS_338/hw4$ ./server
+Listening for client...
+Client connected.
+Client was wrong
+jeremy@thinkbae:~/Documents/EECS_338/hw4$ ./client
+What is both an eating utensil and a unix call?
+spoon
+Wrong. The answer is fork
+
+
+2. Output: jeremy@thinkbae:~/Documents/EECS_338/hw4$ ./problem2
+19.88 -7.76 7.95 -5.27 3.67 
+-7.76 3.03 -3.10 2.06 -1.43 
+7.95 -3.10 3.18 -2.11 1.47 
+-5.27 2.06 -2.11 1.40 -0.97 
+3.67 -1.43 1.47 -0.97 0.68 
+37.99 -73.98 49.96 15.89 -27.48 
+-73.98 144.06 -97.27 -30.95 53.51 
+49.96 -97.27 65.68 20.90 -36.13 
+15.89 -30.95 20.90 6.65 -11.49 
+-27.48 53.51 -36.13 -11.49 19.88 
+min = -97.27 
+jeremy@thinkbae:~/Documents/EECS_338/hw4$
+
+3. Output: jeremy@thinkbae:~/Documents/EECS_338/hw4$ ./problem3
+37.99 -73.98 49.96 15.89 -27.48 
+-73.98 144.06 -97.27 -30.95 53.51 
+49.96 -97.27 65.68 20.90 -36.13 
+15.89 -30.95 19.88 -7.76 7.95 20.90 -5.27 6.65 -11.49 
+3.67 -27.48 
+53.51 -36.13 -7.76 -11.49 3.03 19.88 
+-3.10 2.06 -1.43 
+7.95 -3.10 3.18 -2.11 1.47 
+-5.27 2.06 -2.11 1.40 -0.97 
+3.67 -1.43 1.47 -0.97 0.68 
+min = -97.27 
+jeremy@thinkbae:~/Documents/EECS_338/hw4$
+
+	I prefered using the pipe as in #2 because I found that using the POSIX thread method didn't really take advantage of the main benefit of using a pthread, which is shared memory. All that was really needed was the min value found by the other process/thread, and thus using a pipe to send the min value from the other process made more sense to me than creating a new thread and merging its own values into the parent thread.
+
+							
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

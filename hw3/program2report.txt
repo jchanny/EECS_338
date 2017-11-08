@@ -1,0 +1,30 @@
+Jeremy Chan
+jsc126
+EECS 338
+HW#3
+
+Results:
+
+jeremy@thinkbae:~/Documents/EECS_338/hw3$ ./program2
+How many processes?1
+Process 1 total time was 2.549286 seconds. Sum = 1000000000.
+
+jeremy@thinkbae:~/Documents/EECS_338/hw3$ ./program2
+How many processes?2
+Process 1 total time was 1.312409 seconds. Sum = 500000000.
+Process 2 total time was 1.318915 seconds. Sum = 500000000.
+
+jeremy@thinkbae:~/Documents/EECS_338/hw3$ ./program2
+How many processes?3
+Process 2 total time was 0.965491 seconds. Sum = 333333333. 
+Process total time was 1.188545 seconds. Sum = 333333333. 
+Process total time was 1.250020 seconds. Sum = 333333333.
+
+jeremy@thinkbae:~/Documents/EECS_338/hw3$ ./program2
+How many processes?4
+Process 4 total time was 1.072944 seconds. Sum = 250000000. 
+jeremy@thinkbae:~/Documents/EECS_338/hw3$ Process 2 total time was 1.073774 seconds. Sum = 250000000. 
+Process 1 total time was 1.066488 seconds. Sum = 250000000. 
+Process 3 total time was 1.075547 seconds. Sum = 250000000. 
+
+    For each of the trials, the run time was nearly equally divided between each process. This is what I expected since when a child process is created by forking, it's allocated an equal amount of resources as its parent process. The task that each child was given was identical to the parent's task. Therefore, the child should take the same amount of time as its parent to execute. Also, as more processes were created, the runtime for each process went down--this makes sense as each time a new process was created, the work that each process must do goes down. Time massively dropped after a second process was used to calculate the sum, but after that, when more processes were created, there were only incremental improvements. This is because my computer is dual core, so the effect of shortening run times is lessenned after 2 processes. 

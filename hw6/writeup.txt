@@ -1,0 +1,23 @@
+Jeremy Chan
+EECS 338
+HW #6
+October 25, 2017
+
+1. jeremy@thinkbae:~/Documents/EECS_338/hw6$ ./problem1
+0 
+1 
+2 
+3 
+4 
+5 
+6 
+7 
+8 
+9 
+
+2.jeremy@thinkbae:~/Documents/EECS_338/hw6$ ./problem2
+ID: -2000902400, message: Roses are red 
+ID: -2009295104, message: Roses are red 
+ID: -2009295104, message: I'm out of ideas 
+ID: -2000902400, message: I'm out of ideas 
+
