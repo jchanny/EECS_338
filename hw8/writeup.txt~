@@ -1,0 +1,4 @@
+1. Problem 1 was run as a batch file using a slurm script. The number of
+execution cores was adjusted using OMP_NUM_THREADS=n.
+
+Output:

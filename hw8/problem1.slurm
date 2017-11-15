@@ -1,0 +1,18 @@
+#!/bin/bash
+#SBATCH --nodes=1
+#SBATCH --cpus-per-task=8
+#SBATCH --output=myOutput.txt 
+
+cp problem1.c $PFSDIR/.
+cd $PFSDIR
+gcc problem1.c -o problem1 -fopenmp -lm
+export OMP_NUM_THREADS=1
+./problem1
+export OMP_NUM_THREADS=2
+./problem1
+export OMP_NUM_THREADS=4
+./problem1
+export OMP_NUM_THREADS=6
+./problem1
+export OMP_NUM_THREADS=8
+./problem1

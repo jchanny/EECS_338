@@ -1,0 +1,12 @@
+1. Problem 1 was run as a batch file using a slurm script. The number of
+execution cores was adjusted using OMP_NUM_THREADS=n.
+
+Output: (For some reason omp_get_num_threads() does not return correct number
+of threads)
+	
+I am running 1 cores and I took 0.160000 seconds to execute. Min = -186.730643
+I am running 1 cores and I took 0.360000 seconds to execute. Min = -186.730643
+I am running 1 cores and I took 0.810000 seconds to execute. Min = -186.730643
+I am running 1 cores and I took 1.480000 seconds to execute. Min = -186.730643
+I am running 1 cores and I took 4.060000 seconds to execute. Min = -186.730643
+
