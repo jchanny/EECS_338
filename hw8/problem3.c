@@ -53,7 +53,8 @@ int main(int argc, char *argv[])
 	double start = -2.0;
 	double interval = 4.0/(double)numThreads;
 	int procNum = 1;
-	for(int i = 0; i < numThreads; i++){
+	int i;
+	for( i = 0; i < numThreads; i++){
 		pid = fork();
 		if(pid == 0)
 			break;

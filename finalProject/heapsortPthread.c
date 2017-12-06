@@ -1,12 +1,36 @@
 #include <stdio.h>
+#include <pthread.h>
 
 void heapify(int array[], int index, int length);
 
-int sortArray(int values[], int length){
+void *child(void *values[], void *start, void *sortLength){
 	int i;
+	for(i = *start-1; start >= *start-1-*sortLength; i--){
+		int swap = values[0];
+		values[0] = values[i];
+		values[i] = swap;
+		heapify(values, 0, i-1);
+	}
+}
+
+int sortArray(int values[], int length, int numThreads){
+	int i;
+	pthread_t tid[numThreads];
+	int threadStart[numThreads];
+	
 	//building the heap
 	for(i = 0; i < length-1; i++){
 		heapify(values, i, length);
+	}
+	int sortLen = length/numThreads;
+	//multithreading will occur here:
+	for(i = 0; i < numThreads; i++){
+		threadStart[i] = i*sortLen;
+		pthread_create(&tid[i],NULL, child, &values, &threadStart[i], &sortLen);
+	}
+
+	for(i = 0; i < numThreads; i++){
+		pthread_join(tid[i], NULL);
 	}
 	//swap 0th element w/last, heapify
 	for(i = length-1; i >= 0; i--){

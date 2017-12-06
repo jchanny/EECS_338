@@ -5,7 +5,7 @@
 
 cp problem2.c $PFSDIR/.
 cd $PFSDIR
--gcc -o problem2 problem2.c -lrt -pthread -lm
+gcc -o problem2 problem2.c -lrt -pthread -lm
 ./problem2 1
 ./problem2 2
 ./problem2 4

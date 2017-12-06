@@ -36,17 +36,18 @@ int main(int argc, char *argv[])
 	double start[numThreads];
 	double interval = 4/numThreads;
 
-	for(int i = 0; i < numThreads; i++){
+	int i;
+	for(i = 0; i < numThreads; i++){
 		start[i] = sV;
 		sV = sV + interval;
 	}
 	
-	for(int i = 0 ; i < numThreads ; i++){
+	for(i = 0 ; i < numThreads ; i++){
 		pthread_create(&threads[i], &attr, child, &start[i] );
 	}
 
-
-	for(int loop = 0 ; loop < numThreads ; loop++){
+	int loop;
+	for(loop = 0 ; loop < numThreads ; loop++){
 		pthread_join(threads[loop], NULL);
 	}
 	fflush(stdout);

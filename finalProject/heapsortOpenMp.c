@@ -1,36 +1,69 @@
 #include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <sys/time.h>
 #include <omp.h>
 
-float sortArray(int values[], int length){
-	struct timeval start_time, stop_time, elapsed_time;
-	int outerIndex;
-	int currVal;
-	gettimeofday(&start_time,NULL);
+void heapify(int array[], int index, int length);
+
+int sortArray(int values[], int length){
+	int i;
+	//building the heap
 #pragma omp parallel{
-	for(outerIndex = 1 ; outerIndex < length; outerIndex++){
-		currVal = values[outerIndex];
-		int compareIndex = outerIndex -1;
+	for(i = 0; i < length-1; i++){
+		heapify(values, i, length);
+	}
+	//swap 0th element w/last, heapify
+	for(i = length-1; i >= 0; i--){
+		int swap = values[0];
+		values[0] = values[i];
+		values[i] = swap;
+		heapify(values, 0, i-1);
+	}
+}
+	}
+
+//creates heap in place,
+/*ith element:
+  left child @ 2i
+  right child @2i+1
+  parent @ i/2*/
+void heapify(int array[], int index, int length){
+	if(index < length-1){
+		//left child
+		if(index % 2 == 0){
+			if(array[index+1] > array[(index+1)/2]){
 #pragma omp critical{
-		while(currVal < values[compareIndex] && compareIndex >= 0){
-			int temp = values[compareIndex];
-			values[compareIndex] = currVal;
-			values[compareIndex+1] = temp;
-			compareIndex--;
+				//swap parent and current
+				int parent = array[(index+1)/2];
+				array[(index+1)/2] = array[index+1];
+				array[index+1] = parent;
+			}
+ int newIndex = (index+1)/2;
+ if(newIndex!= 0){
+	 heapify(array, newIndex-1, length);
+ }
+			
 		}
 	}
+		//right child
+		else{
+			if(array[index+1] > array[((index+1)/2)-1]){
+#pragma omp critical{
+				int parent = array[((index+1)/2)-1];
+				array[((index+1)/2)-1] = array[index+1];
+				array[index+1] = parent;
+			}
+ int newIndex = ((index+1)/2)-1;
+ if(newIndex != 0){
+	 heapify(array, newIndex-1, length);
+ }
+		}
 }
 	}
-	gettimeofday(&stop_time,NULL);
-timersub(&stop_time, &start_time, &elapsed_time);
-return elapsed_time.tv_sec+elapsed_time.tv_usec/100000.0;
+	
 }
 
-int main(int argc, char *argv[]){
-	//creating the unsorted array
-	int temp;
+//main driver of the code
+int main(void){
+		
 	int index;
 	int len = 1000;
 
@@ -64,13 +97,13 @@ int main(int argc, char *argv[]){
 	int i;
 	for(i = 1 ; i < len; i++){
 		if(worstCase[i] < worstCase[i-1] || bestCase[i] < bestCase[i-1] || random[i] < random[i-1]){
-			printf("Insertion sort failed to sort properly.");
+			printf("heapsort failed to sort properly.");
 			return 0;
 		}
 	}
-	printf("Insertion sort on backwards array len %i:, %f \n", len, worstRunTime);
-	printf("Insertion sort on sorted array len %i:, %f\n",len,  bestRunTime);
-	printf("Insertion sort on random array len %i:, %f\n", len, randomRunTime);
+	printf("heapsort on backwards array len %i:, %f \n", len, worstRunTime);
+	printf("heapsort on sorted array len %i:, %f\n",len,  bestRunTime);
+	printf("heapsort on random array len %i:, %f\n", len, randomRunTime);
 
 	//running insertion sort on len 2000 arrays
 	len = 2000;
@@ -104,13 +137,13 @@ int main(int argc, char *argv[]){
 	i;
 	for(i = 1 ; i < len; i++){
 		if(worstCase[i] < worstCase[i-1] || bestCase[i] < bestCase[i-1] || random[i] < random[i-1]){
-			printf("Insertion sort failed to sort properly.");
+			printf("heapsort failed to sort properly.");
 			return 0;
 		}
 	}
-	printf("Insertion sort on backwards array len %i:, %f \n", len, worstRunTime);
-	printf("Insertion sort on sorted array len %i:, %f\n",len,  bestRunTime);
-	printf("Insertion sort on random array len %i:, %f\n", len, randomRunTime);
+	printf("heapsort on backwards array len %i:, %f \n", len, worstRunTime);
+	printf("heapsort on sorted array len %i:, %f\n",len,  bestRunTime);
+	printf("heapsort on random array len %i:, %f\n", len, randomRunTime);
 
 	//running insertion sort on len 3000 arrays
 	len = 3000;
@@ -144,12 +177,12 @@ int main(int argc, char *argv[]){
 	i;
 	for(i = 1 ; i < len; i++){
 		if(worstCase[i] < worstCase[i-1] || bestCase[i] < bestCase[i-1] || random[i] < random[i-1]){
-			printf("Insertion sort failed to sort properly.");
+			printf("heapsort failed to sort properly.");
 			return 0;
 		}
 	}
-	printf("Insertion sort on backwards array len %i:, %f \n", len, worstRunTime);
-	printf("Insertion sort on sorted array len %i:, %f\n",len,  bestRunTime);
-	printf("Insertion sort on random array len %i:, %f\n", len, randomRunTime);
+	printf("heapsort on backwards array len %i:, %f \n", len, worstRunTime);
+	printf("heapsort on sorted array len %i:, %f\n",len,  bestRunTime);
+	printf("heapsort on random array len %i:, %f\n", len, randomRunTime);
 	
 }

@@ -4,9 +4,33 @@ execution cores was adjusted using OMP_NUM_THREADS=n.
 Output: (For some reason omp_get_num_threads() does not return correct number
 of threads)
 	
-I am running 1 cores and I took 0.160000 seconds to execute. Min = -186.730643
-I am running 1 cores and I took 0.360000 seconds to execute. Min = -186.730643
-I am running 1 cores and I took 0.810000 seconds to execute. Min = -186.730643
-I am running 1 cores and I took 1.480000 seconds to execute. Min = -186.730643
-I am running 1 cores and I took 4.060000 seconds to execute. Min = -186.730643
+I am running 1 cores and I took 1.980596 seconds to execute. Min = -186.73
+I am running 1 cores and I took 3.070056 seconds to execute. Min = -186.73
+I am running 1 cores and I took 3.318499 seconds to execute. Min = -186.73
+I am running 1 cores and I took 4.690337 seconds to execute. Min = -186.73
+I am running 1 cores and I took 7.343536 seconds to execute. Min = -186.73
 
+
+2. Problem 2 was run as a batch file using a slurm script. The number of
+threads was controlled by passing in an arg specifying how many threads
+would be created.
+
+Output:
+Num cores=1, execution time=6.763049 s,min = -186.73
+Num cores=2, execution time=2.014294 s,min = -186.73
+Num cores=4, execution time=1.269711 s,min = -123.58
+Num cores=6, execution time=1.197107 s,min = -79.33
+Num cores=8, execution time=0.991088 s,min = -73.98
+
+
+3. Problem 3 was run as a batch file using a slurm script. The number of
+processes spawned was controlled by passing in an arg specifying how many
+calls to fork would be made.
+
+Output:
+
+Cores=1,execution time =5.646980 s, min = -186.73
+Cores=2,execution time =2.648662 s, min = -186.73
+Cores=4,execution time =1.377900 s, min = -123.58
+Cores=6,execution time =1.342841 s, min = -166.95
+Cores=8,execution time =0.549896 s, min = -104.31

@@ -1,15 +1,34 @@
 #include <stdio.h>
 
-void heapify(int array[], int index, int length);
+void heapify(int array[], int index, int length, int numProc);
 
-int sortArray(int values[], int length){
+int sortArray(int values[], int length, int numThreads){
 	int i;
 	//building the heap
 	for(i = 0; i < length-1; i++){
 		heapify(values, i, length);
 	}
+	int sortIntv = length/numProc;
+	int iProc;
+	//multithreading will occur here:
+	for(i = 1; i < numThreads & !pid; i++){
+		pid = fork();
+		if(!pid)
+			iProc = i;
+	}
+
+	int sortStart = length-1 + iProc*sortIntv;
 	//swap 0th element w/last, heapify
-	for(i = length-1; i >= 0; i--){
+	for(i = sortStart; i >= sortStart-sortIntv; i--){
+		int swap = values[0];
+		values[0] = values[i];
+		values[i] = swap;
+		heapify(values, 0, i-1);
+	}
+
+	wait(NULL);
+	//one last heapSort
+		for(i = length-1; i >= 0; i--){
 		int swap = values[0];
 		values[0] = values[i];
 		values[i] = swap;

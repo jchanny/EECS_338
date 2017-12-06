@@ -3,12 +3,40 @@
 #include <time.h>
 #include <sys/time.h>
 
-float sortArray(int values[], int length){
+float sortArray(int values[], int length, int numThreads){
 	struct timeval start_time, stop_time, elapsed_time;
+
 	int outerIndex;
 	int currVal;
 	gettimeofday(&start_time,NULL);
-	for(outerIndex = 1 ; outerIndex < length; outerIndex++){
+	int lengthThread = length/numThreads;
+	int iProc;//index of the current process
+	int proc;
+	//creating the threads
+	for(proc = 1; proc < numThreads; proc++){
+		pid = fork();
+		if(!pid){
+			iProc = proc;
+		}
+	}
+	
+	int startSort = 1 + iProc * lengthThread;
+	int endSort = startSort + lengthThread;
+	
+	for(outerIndex = startSort ; outerIndex < endSort; outerIndex++){
+		currVal = values[outerIndex];
+		int compareIndex = outerIndex -1;
+		while(currVal < values[compareIndex] && compareIndex >= 0){
+			int temp = values[compareIndex];
+			values[compareIndex] = currVal;
+			values[compareIndex+1] = temp;
+			compareIndex--;
+		}
+	}
+	wait(NULL);
+	//after joining all of the subarrays, do one final insertion sort on the
+	//entire array
+		for(outerIndex = 1 ; outerIndex < length; outerIndex++){
 		currVal = values[outerIndex];
 		int compareIndex = outerIndex -1;
 		while(currVal < values[compareIndex] && compareIndex >= 0){
