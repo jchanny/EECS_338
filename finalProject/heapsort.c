@@ -5,47 +5,38 @@ void heapify(int array[], int index, int length);
 int sortArray(int values[], int length){
 	int i;
 	//building the heap
-	for(i = 0; i < length-1; i++){
-		heapify(values, i, length);
-	}
-	//swap 0th element w/last, heapify
-	/* for(i = length -1; i >=0 ; i--){ */
-	/* 	int swap = values[0]; */
-	/* 	values[0] = values[i]; */
-	/* 	values[i] = swap; */
-		
-	/* } */
-	/* for(i = length-1; i >= 0; i--){ */
-	/* 	int swap = values[0]; */
-	/* 	values[0] = values[i]; */
-	/* 	values[i] = swap; */
-	/* 	heapify(values, 0, i-1); */
-	/* } */
+	//	for(i = 0; i < length; i--){
+		heapify(values, 0, length);
+		//	}
+
 }
 
 /*input: root node, looks at both of its children*/
-void heapify(int array[], int index, int length){length
-	if(2*(index+1) >= length || 2*(index+1)-1 >= length){}
-	else{
-		//if left child bigger
-		if(array[(2*(index+1))-1] > array[index]){
-			int swap = array[index];
-			array[index] = array[(2*(index+1))-1];
-			array[(2*(index+1))-1] = swap;
-			
-			heapify(array, (2*(index+1))-1, length);
+void heapify(int array[], int index, int length){
+	int indexLargest = index;
+	int largest = array[index];
+	//left child exists
+	if((2*(index+1)-1) < length){
+		if(array[(2*(index+1)-1)] > array[indexLargest]){
+			int swap = array[(2*(index+1))-1];
+			array[(2*(index+1))-1] = array[index];
+			array[index] = swap;
+			indexLargest = (2*(index+1))-1;
 		}
-		//if right child bigger
-		if(array[2*(index+1)] > array[index]){
-			int swap = array[index];
-			array[index] = array[2*(index+1)];
-			array[2*(index+1)] = swap;
-			//	if(2*(index+1) < length)
-				heapify(array, 2*(index+1), length);
+		//right child exists
+		if((2*(index+1)) < length){
+			if(array[(2*(index+1))] > array[indexLargest]){
+				int swap = array[(2*(index+1))];
+				array[(2*(index+1))] = array[index];
+				array[index] = swap;
+				indexLargest = (2*(index+1));
+			}
 		}
 	}
+	if(indexLargest != index){
+		heapify(array, indexLargest, length);
+	}
 }
-
 
 //main driver of the code
 int main(void){
@@ -59,16 +50,10 @@ int main(void){
 		val++;
 	}
 
-	int array[3];
-	array[0] = 0;
-	array[1] = 1;
-	array[2] = 2;
-	array[3] = 3;
-	array[4] = 4;
-	sortArray(array, 5);
-	//	sortArray(arr, len);
-	for(index = 0; index < 5; index++)
-		printf("%i\n", array[index]);
+	sortArray(arr, 6);
+	for(index = 0 ; index < 6 ; index++){
+		printf("%i\n", arr[index]);
+	}
 
 	/* for(index = 0; index < len ; index++){ */
 	/* 	printf("%i\n",arr[index]); */
