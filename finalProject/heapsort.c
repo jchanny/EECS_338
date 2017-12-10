@@ -11,33 +11,6 @@ int sortArray(int values[], int length){
 
 }
 
-/*input: root node, looks at both of its children*/
-void heapify(int array[], int index, int length){
-	int indexLargest = index;
-	int largest = array[index];
-	//left child exists
-	if((2*(index+1)-1) < length){
-		if(array[(2*(index+1)-1)] > array[indexLargest]){
-			int swap = array[(2*(index+1))-1];
-			array[(2*(index+1))-1] = array[index];
-			array[index] = swap;
-			indexLargest = (2*(index+1))-1;
-		}
-		//right child exists
-		if((2*(index+1)) < length){
-			if(array[(2*(index+1))] > array[indexLargest]){
-				int swap = array[(2*(index+1))];
-				array[(2*(index+1))] = array[index];
-				array[index] = swap;
-				indexLargest = (2*(index+1));
-			}
-		}
-	}
-	if(indexLargest != index){
-		heapify(array, indexLargest, length);
-	}
-}
-
 //main driver of the code
 int main(void){
 
