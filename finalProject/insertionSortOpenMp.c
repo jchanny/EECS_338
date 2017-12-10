@@ -72,6 +72,9 @@ int main(int argc, char *argv[]){
 	printf("Insertion sort on sorted array len %i:, %f\n",len,  bestRunTime);
 	printf("Insertion sort on random array len %i:, %f\n", len, randomRunTime);
 
+free(random);
+	free(worstCase);
+	free(bestCase);
 	//running insertion sort on len 2000 arrays
 	len = 2000;
 
@@ -112,7 +115,14 @@ int main(int argc, char *argv[]){
 	printf("Insertion sort on sorted array len %i:, %f\n",len,  bestRunTime);
 	printf("Insertion sort on random array len %i:, %f\n", len, randomRunTime);
 
+<<<<<<< HEAD
 	//running insertion sort on len 3000 arrays
+=======
+free(random);
+	free(worstCase);
+	free(bestCase);
+		//running insertion sort on len 3000 arrays
+>>>>>>> betaVersion
 	len = 3000;
 
 	worstCase = (int*)calloc(len, sizeof(int));

@@ -1,81 +1,56 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <sys/time.h>
 
-void heapify(int array[], int index, int length, int numProc);
+void heapify(int array[], int index, int length);
 
-int sortArray(int values[], int length, int numThreads){
+float sortArray(int values[], int length){
 	int i;
-	//building the heap
-	for(i = 0; i < length-1; i++){
+	struct timeval start_time, stop_time, elapsed_time;
+	gettimeofday(&start_time, NULL);
+	//building the heap, starting from the bottom most level
+	for(i = length/2 - 1; i >= 0; i--){
 		heapify(values, i, length);
 	}
-	int sortIntv = length/numProc;
-	int iProc;
-	//multithreading will occur here:
-	for(i = 1; i < numThreads & !pid; i++){
-		pid = fork();
-		if(!pid)
-			iProc = i;
-	}
-
-	int sortStart = length-1 + iProc*sortIntv;
-	//swap 0th element w/last, heapify
-	for(i = sortStart; i >= sortStart-sortIntv; i--){
+	for(i = length-1; i >= 0; i--){
 		int swap = values[0];
 		values[0] = values[i];
 		values[i] = swap;
-		heapify(values, 0, i-1);
+		heapify(values, 0, i);
 	}
-
-	wait(NULL);
-	//one last heapSort
-		for(i = length-1; i >= 0; i--){
-		int swap = values[0];
-		values[0] = values[i];
-		values[i] = swap;
-		heapify(values, 0, i-1);
-	}
+	gettimeofday(&stop_time, NULL);
+	timersub(&stop_time, &start_time, &elapsed_time);
+	return elapsed_time.tv_sec+elapsed_time.tv_usec/100000.0;
 }
 
-//creates heap in place,
-/*ith element:
-  left child @ 2i
-  right child @2i+1
-  parent @ i/2*/
 void heapify(int array[], int index, int length){
-	if(index < length-1){
-	//left child
-	if(index % 2 == 0){
-		if(array[index+1] > array[(index+1)/2]){
-			//swap parent and current
-			int parent = array[(index+1)/2];
-			array[(index+1)/2] = array[index+1];
-			array[index+1] = parent;
-
-			int newIndex = (index+1)/2;
-			if(newIndex!= 0){
-				heapify(array, newIndex-1, length);
-			}
+	int indexLargest = index;
+	//check if left child exists
+	if((2*index)+1 < length){
+		//check if left>parent
+		if(array[(2*index)+1] > array[indexLargest]){
+			indexLargest = (2*index)+1;
+		}
+		
+	}
+	//check if right child exists
+	if((2*index)+2 < length){
+		if(array[(2*index)+2] > array[indexLargest]){
+			indexLargest = (2*index)+2;
 		}
 	}
-	//right child
-	else{
-		if(array[index+1] > array[((index+1)/2)-1]){
-			int parent = array[((index+1)/2)-1];
-			array[((index+1)/2)-1] = array[index+1];
-			array[index+1] = parent;
-			int newIndex = ((index+1)/2)-1;
-			if(newIndex != 0){
-				heapify(array, newIndex-1, length);
-			}
-		}
+	if(indexLargest != index){
+		int swap = array[index];
+		array[index] = array[indexLargest];
+		array[indexLargest] = swap;
+		heapify(array, indexLargest, length);
 	}
-	}
-	
 }
 
 //main driver of the code
 int main(void){
-		
+
 	int index;
 	int len = 1000;
 
@@ -196,5 +171,6 @@ int main(void){
 	printf("heapsort on backwards array len %i:, %f \n", len, worstRunTime);
 	printf("heapsort on sorted array len %i:, %f\n",len,  bestRunTime);
 	printf("heapsort on random array len %i:, %f\n", len, randomRunTime);
-	
+	return 0;
 }
+
