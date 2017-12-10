@@ -9,173 +9,190 @@ int sortArray(int values[], int length){
 		heapify(values, i, length);
 	}
 	//swap 0th element w/last, heapify
-	for(i = length-1; i >= 0; i--){
-		int swap = values[0];
-		values[0] = values[i];
-		values[i] = swap;
-		heapify(values, 0, i-1);
-	}
+	/* for(i = length -1; i >=0 ; i--){ */
+	/* 	int swap = values[0]; */
+	/* 	values[0] = values[i]; */
+	/* 	values[i] = swap; */
+		
+	/* } */
+	/* for(i = length-1; i >= 0; i--){ */
+	/* 	int swap = values[0]; */
+	/* 	values[0] = values[i]; */
+	/* 	values[i] = swap; */
+	/* 	heapify(values, 0, i-1); */
+	/* } */
 }
 
-//creates heap in place,
-/*ith element:
-  left child @ 2i
-  right child @2i+1
-  parent @ i/2*/
-void heapify(int array[], int index, int length){
-	if(index < length-1){
-	//left child
-	if(index % 2 == 0){
-		if(array[index+1] > array[(index+1)/2]){
-			//swap parent and current
-			int parent = array[(index+1)/2];
-			array[(index+1)/2] = array[index+1];
-			array[index+1] = parent;
-
-			int newIndex = (index+1)/2;
-			if(newIndex!= 0){
-				heapify(array, newIndex-1, length);
-			}
-		}
-	}
-	//right child
+/*input: root node, looks at both of its children*/
+void heapify(int array[], int index, int length){length
+	if(2*(index+1) >= length || 2*(index+1)-1 >= length){}
 	else{
-		if(array[index+1] > array[((index+1)/2)-1]){
-			int parent = array[((index+1)/2)-1];
-			array[((index+1)/2)-1] = array[index+1];
-			array[index+1] = parent;
-			int newIndex = ((index+1)/2)-1;
-			if(newIndex != 0){
-				heapify(array, newIndex-1, length);
-			}
+		//if left child bigger
+		if(array[(2*(index+1))-1] > array[index]){
+			int swap = array[index];
+			array[index] = array[(2*(index+1))-1];
+			array[(2*(index+1))-1] = swap;
+			
+			heapify(array, (2*(index+1))-1, length);
+		}
+		//if right child bigger
+		if(array[2*(index+1)] > array[index]){
+			int swap = array[index];
+			array[index] = array[2*(index+1)];
+			array[2*(index+1)] = swap;
+			//	if(2*(index+1) < length)
+				heapify(array, 2*(index+1), length);
 		}
 	}
-	}
-	
 }
+
 
 //main driver of the code
 int main(void){
-		
+
 	int index;
-	int len = 1000;
-
-	int *worstCase, *bestCase, *random;
-	worstCase = (int*)calloc(len, sizeof(int));
-	bestCase = (int*)calloc(len, sizeof(int));
-	random = (int*)calloc(len, sizeof(int));
-
-	int val = 1000;
-	for(index = 0 ; index < len; index++){
-		worstCase[index] = val;
-		val--;
-	}
-
-	val = 1;
-	for(index = 0; index < len ; index++){
-		bestCase[index] = val;
+	int len = 10;
+	int arr[10];
+	int val = 0;
+	for(index = 0; index< len; index++){
+		arr[index] = val;
 		val++;
 	}
 
-	srand(time(NULL));
-	for(index = 0; index < len; index++){
-		int r = rand();
-		random[index] = r;
-	}
+	int array[3];
+	array[0] = 0;
+	array[1] = 1;
+	array[2] = 2;
+	array[3] = 3;
+	array[4] = 4;
+	sortArray(array, 5);
+	//	sortArray(arr, len);
+	for(index = 0; index < 5; index++)
+		printf("%i\n", array[index]);
 
-	float worstRunTime = sortArray(worstCase, len);
-	float bestRunTime = sortArray(bestCase, len);
-	float randomRunTime = sortArray(random, len);
+	/* for(index = 0; index < len ; index++){ */
+	/* 	printf("%i\n",arr[index]); */
+	/* } */
+  
+	/* int index; */
+	/* int len = 1000; */
 
-	int i;
-	for(i = 1 ; i < len; i++){
-		if(worstCase[i] < worstCase[i-1] || bestCase[i] < bestCase[i-1] || random[i] < random[i-1]){
-			printf("heapsort failed to sort properly.");
-			return 0;
-		}
-	}
-	printf("heapsort on backwards array len %i:, %f \n", len, worstRunTime);
-	printf("heapsort on sorted array len %i:, %f\n",len,  bestRunTime);
-	printf("heapsort on random array len %i:, %f\n", len, randomRunTime);
+	/* int *worstCase, *bestCase, *random; */
+	/* worstCase = (int*)calloc(len, sizeof(int)); */
+	/* bestCase = (int*)calloc(len, sizeof(int)); */
+	/* random = (int*)calloc(len, sizeof(int)); */
 
-	//running insertion sort on len 2000 arrays
-	len = 2000;
+	/* int val = 1000; */
+	/* for(index = 0 ; index < len; index++){ */
+	/* 	worstCase[index] = val; */
+	/* 	val--; */
+	/* } */
 
-	worstCase = (int*)calloc(len, sizeof(int));
-	bestCase = (int*)calloc(len, sizeof(int));
-	random = (int*)calloc(len, sizeof(int));
+	/* val = 1; */
+	/* for(index = 0; index < len ; index++){ */
+	/* 	bestCase[index] = val; */
+	/* 	val++; */
+	/* } */
 
-	val = 2000;
-	for(index = 0 ; index < len; index++){
-		worstCase[index] = val;
-		val--;
-	}
+	/* srand(time(NULL)); */
+	/* for(index = 0; index < len; index++){ */
+	/* 	int r = rand(); */
+	/* 	random[index] = r; */
+	/* } */
 
-	val = 1;
-	for(index = 0; index < len ; index++){
-		bestCase[index] = val;
-		val++;
-	}
+	/* float worstRunTime = sortArray(worstCase, len); */
+	/* float bestRunTime = sortArray(bestCase, len); */
+	/* float randomRunTime = sortArray(random, len); */
 
-	srand(time(NULL));
-	for(index = 0; index < len; index++){
-		int r = rand();
-		random[index] = r;
-	}
+	/* int i; */
+	/* for(i = 1 ; i < len; i++){ */
+	/* 	if(worstCase[i] < worstCase[i-1] || bestCase[i] < bestCase[i-1] || random[i] < random[i-1]){ */
+	/* 		printf("heapsort failed to sort properly."); */
+	/* 		return 0; */
+	/* 	} */
+	/* } */
+	/* printf("heapsort on backwards array len %i:, %f \n", len, worstRunTime); */
+	/* printf("heapsort on sorted array len %i:, %f\n",len,  bestRunTime); */
+	/* printf("heapsort on random array len %i:, %f\n", len, randomRunTime); */
 
-	worstRunTime = sortArray(worstCase, len);
-	bestRunTime = sortArray(bestCase, len);
-	randomRunTime = sortArray(random, len);
+	/* //running insertion sort on len 2000 arrays */
+	/* len = 2000; */
 
-	i;
-	for(i = 1 ; i < len; i++){
-		if(worstCase[i] < worstCase[i-1] || bestCase[i] < bestCase[i-1] || random[i] < random[i-1]){
-			printf("heapsort failed to sort properly.");
-			return 0;
-		}
-	}
-	printf("heapsort on backwards array len %i:, %f \n", len, worstRunTime);
-	printf("heapsort on sorted array len %i:, %f\n",len,  bestRunTime);
-	printf("heapsort on random array len %i:, %f\n", len, randomRunTime);
+	/* worstCase = (int*)calloc(len, sizeof(int)); */
+	/* bestCase = (int*)calloc(len, sizeof(int)); */
+	/* random = (int*)calloc(len, sizeof(int)); */
 
-	//running insertion sort on len 3000 arrays
-	len = 3000;
+	/* val = 2000; */
+	/* for(index = 0 ; index < len; index++){ */
+	/* 	worstCase[index] = val; */
+	/* 	val--; */
+	/* } */
 
-	worstCase = (int*)calloc(len, sizeof(int));
-	bestCase = (int*)calloc(len, sizeof(int));
-	random = (int*)calloc(len, sizeof(int));
+	/* val = 1; */
+	/* for(index = 0; index < len ; index++){ */
+	/* 	bestCase[index] = val; */
+	/* 	val++; */
+	/* } */
 
-	val = 3000;
-	for(index = 0 ; index < len; index++){
-		worstCase[index] = val;
-		val--;
-	}
+	/* srand(time(NULL)); */
+	/* for(index = 0; index < len; index++){ */
+	/* 	int r = rand(); */
+	/* 	random[index] = r; */
+	/* } */
 
-	val = 1;
-	for(index = 0; index < len ; index++){
-		bestCase[index] = val;
-		val++;
-	}
+	/* worstRunTime = sortArray(worstCase, len); */
+	/* bestRunTime = sortArray(bestCase, len); */
+	/* randomRunTime = sortArray(random, len); */
 
-	srand(time(NULL));
-	for(index = 0; index < len; index++){
-		int r = rand();
-		random[index] = r;
-	}
+	/* i; */
+	/* for(i = 1 ; i < len; i++){ */
+	/* 	if(worstCase[i] < worstCase[i-1] || bestCase[i] < bestCase[i-1] || random[i] < random[i-1]){ */
+	/* 		printf("heapsort failed to sort properly."); */
+	/* 		return 0; */
+	/* 	} */
+	/* } */
+	/* printf("heapsort on backwards array len %i:, %f \n", len, worstRunTime); */
+	/* printf("heapsort on sorted array len %i:, %f\n",len,  bestRunTime); */
+	/* printf("heapsort on random array len %i:, %f\n", len, randomRunTime); */
 
-	worstRunTime = sortArray(worstCase, len);
-	bestRunTime = sortArray(bestCase, len);
-	randomRunTime = sortArray(random, len);
+	/* //running insertion sort on len 3000 arrays */
+	/* len = 3000; */
 
-	i;
-	for(i = 1 ; i < len; i++){
-		if(worstCase[i] < worstCase[i-1] || bestCase[i] < bestCase[i-1] || random[i] < random[i-1]){
-			printf("heapsort failed to sort properly.");
-			return 0;
-		}
-	}
-	printf("heapsort on backwards array len %i:, %f \n", len, worstRunTime);
-	printf("heapsort on sorted array len %i:, %f\n",len,  bestRunTime);
-	printf("heapsort on random array len %i:, %f\n", len, randomRunTime);
+	/* worstCase = (int*)calloc(len, sizeof(int)); */
+	/* bestCase = (int*)calloc(len, sizeof(int)); */
+	/* random = (int*)calloc(len, sizeof(int)); */
+
+	/* val = 3000; */
+	/* for(index = 0 ; index < len; index++){ */
+	/* 	worstCase[index] = val; */
+	/* 	val--; */
+	/* } */
+
+	/* val = 1; */
+	/* for(index = 0; index < len ; index++){ */
+	/* 	bestCase[index] = val; */
+	/* 	val++; */
+	/* } */
+
+	/* srand(time(NULL)); */
+	/* for(index = 0; index < len; index++){ */
+	/* 	int r = rand(); */
+	/* 	random[index] = r; */
+	/* } */
+
+	/* worstRunTime = sortArray(worstCase, len); */
+	/* bestRunTime = sortArray(bestCase, len); */
+	/* randomRunTime = sortArray(random, len); */
+
+	/* i; */
+	/* for(i = 1 ; i < len; i++){ */
+	/* 	if(worstCase[i] < worstCase[i-1] || bestCase[i] < bestCase[i-1] || random[i] < random[i-1]){ */
+	/* 		printf("heapsort failed to sort properly."); */
+	/* 		return 0; */
+	/* 	} */
+	/* } */
+	/* printf("heapsort on backwards array len %i:, %f \n", len, worstRunTime); */
+	/* printf("heapsort on sorted array len %i:, %f\n",len,  bestRunTime); */
+	/* printf("heapsort on random array len %i:, %f\n", len, randomRunTime); */
 	
 }
