@@ -12,7 +12,7 @@ void *child(int *startEndData){
 	int end = startEndData[1];
 	int outerIndex;
 	int currVal;
-		for(outerIndex = start ; outerIndex < end; outerIndex++){
+	for(outerIndex = start ; outerIndex < end; outerIndex++){
 		currVal = values[outerIndex];
 		int compareIndex = outerIndex -1;
 		while(compareIndex >=0 && currVal < values[compareIndex] ){
@@ -27,7 +27,7 @@ void *child(int *startEndData){
 //mergesort like merge
 void mergeSubarrays(int arr[], int startOne, int startTwo, int lengthThread){
 	int i;
-	int indexOne, indexTwo;
+	int indexOne, indexTwo; 
 	indexOne = startOne;
 	indexTwo = startTwo;
 	int work[lengthThread*2];
@@ -67,6 +67,7 @@ float sortArray(int length, int numThreads){
 	//creating new threads
 	int sortInterval = length/numThreads;
 	int i;
+
 	for(i = 0 ; i < numThreads; i++){
 		int intervalData[2];
 		intervalData[0] = i*sortInterval;
@@ -77,6 +78,15 @@ float sortArray(int length, int numThreads){
 	for(i = 0; i < numThreads; i++){
 		pthread_join(tid[i], NULL);
 	}
+
+	if(numThreads == 2){
+		mergeSubarrays(values, 0, sortInterval, sortInterval);
+	}
+	if(numThreads == 4){
+		mergeSubarrays(values, 0, sortInterval, sortInterval);
+		mergeSubarrays(values, sortInterval*2, sortInterval*3, sortInterval);
+		mergeSubarrays(values, 0, sortInterval*2, sortInterval*2);
+	}
 				   
 	gettimeofday(&stop_time,NULL);
 	timersub(&stop_time, &start_time, &elapsed_time);
@@ -84,152 +94,46 @@ float sortArray(int length, int numThreads){
 }
 
 int main(int argc, char *argv[]){
-	int len = 10;
+
+	int temp;
 	int index;
-	values = (int*)calloc(len, sizeof(int));
-	values[0] = 2;
-	values[1] = 5;
-	values[2] = 1;
-	values[3] = 3;
-	values[4] = 0;
-	values[5] = 11;
-	values[6] = 8;
-	values[7] = 9;
-	values[8] = 7;
-	values[9] = 6;
+	int len = atoi(argv[1]); //length of array
 
-	sortArray(len, 2);
+	int *worstCase, *bestCase, *random;
+	worstCase = (int*)calloc(len, sizeof(int));
+	bestCase = (int*)calloc(len, sizeof(int));
+	random = (int*)calloc(len, sizeof(int));
 
+	int val = len;
 	for(index = 0 ; index < len; index++){
-		printf("%i\n", values[index]);
+		worstCase[index] = val;
+		val--;
 	}
-	//creating the unsorted array
-/* 	int temp; */
-/* 	int index; */
-/* 	int len = 1000; */
 
-/* 	int *worstCase, *bestCase, *random; */
-/* 	worstCase = (int*)calloc(len, sizeof(int)); */
-/* 	bestCase = (int*)calloc(len, sizeof(int)); */
-/* 	random = (int*)calloc(len, sizeof(int)); */
+	val = 1;
+	for(index = 0; index < len ; index++){
+		bestCase[index] = val;
+		val++;
+	}
 
-/* 	int val = 1000; */
-/* 	for(index = 0 ; index < len; index++){ */
-/* 		worstCase[index] = val; */
-/* 		val--; */
-/* 	} */
+	srand(time(NULL));
+	for(index = 0; index < len; index++){
+		int r = rand();
+		random[index] = r;
+	}
 
-/* 	val = 1; */
-/* 	for(index = 0; index < len ; index++){ */
-/* 		bestCase[index] = val; */
-/* 		val++; */
-/* 	} */
-
-/* 	srand(time(NULL)); */
-/* 	for(index = 0; index < len; index++){ */
-/* 		int r = rand(); */
-/* 		random[index] = r; */
-/* 	} */
-
-/* 	float worstRunTime = sortArray(worstCase, len); */
-/* 	float bestRunTime = sortArray(bestCase, len); */
-/* 	float randomRunTime = sortArray(random, len); */
-
-/* 	int i; */
-/* 	for(i = 1 ; i < len; i++){ */
-/* 		if(worstCase[i] < worstCase[i-1] || bestCase[i] < bestCase[i-1] || random[i] < random[i-1]){ */
-/* 			printf("Insertion sort failed to sort properly."); */
-/* 			return 0; */
-/* 		} */
-/* 	} */
-/* 	printf("Insertion sort on backwards array len %i:, %f \n", len, worstRunTime); */
-/* 	printf("Insertion sort on sorted array len %i:, %f\n",len,  bestRunTime); */
-/* 	printf("Insertion sort on random array len %i:, %f\n", len, randomRunTime); */
-
-/* free(random); */
-/* 	free(worstCase); */
-/* 	free(bestCase); */
-/* 	//running insertion sort on len 2000 arrays */
-/* 	len = 2000; */
-
-/* 	worstCase = (int*)calloc(len, sizeof(int)); */
-/* 	bestCase = (int*)calloc(len, sizeof(int)); */
-/* 	random = (int*)calloc(len, sizeof(int)); */
-
-/* 	val = 2000; */
-/* 	for(index = 0 ; index < len; index++){ */
-/* 		worstCase[index] = val; */
-/* 		val--; */
-/* 	} */
-
-/* 	val = 1; */
-/* 	for(index = 0; index < len ; index++){ */
-/* 		bestCase[index] = val; */
-/* 		val++; */
-/* 	} */
-
-/* 	srand(time(NULL)); */
-/* 	for(index = 0; index < len; index++){ */
-/* 		int r = rand(); */
-/* 		random[index] = r; */
-/* 	} */
-
-/* 	worstRunTime = sortArray(worstCase, len); */
-/* 	bestRunTime = sortArray(bestCase, len); */
-/* 	randomRunTime = sortArray(random, len); */
-
-	
-/* 	for(i = 1 ; i < len; i++){ */
-/* 		if(worstCase[i] < worstCase[i-1] || bestCase[i] < bestCase[i-1] || random[i] < random[i-1]){ */
-/* 			printf("Insertion sort failed to sort properly."); */
-/* 			return 0; */
-/* 		} */
-/* 	} */
-/* 	printf("Insertion sort on backwards array len %i:, %f \n", len, worstRunTime); */
-/* 	printf("Insertion sort on sorted array len %i:, %f\n",len,  bestRunTime); */
-/* 	printf("Insertion sort on random array len %i:, %f\n", len, randomRunTime); */
-
-/* free(random); */
-/* 	free(worstCase); */
-/* 	free(bestCase); */
-/* 		//running insertion sort on len 3000 arrays */
-/* 	len = 3000; */
-
-/* 	worstCase = (int*)calloc(len, sizeof(int)); */
-/* 	bestCase = (int*)calloc(len, sizeof(int)); */
-/* 	random = (int*)calloc(len, sizeof(int)); */
-
-/* 	val = 3000; */
-/* 	for(index = 0 ; index < len; index++){ */
-/* 		worstCase[index] = val; */
-/* 		val--; */
-/* 	} */
-
-/* 	val = 1; */
-/* 	for(index = 0; index < len ; index++){ */
-/* 		bestCase[index] = val; */
-/* 		val++; */
-/* 	} */
-
-/* 	srand(time(NULL)); */
-/* 	for(index = 0; index < len; index++){ */
-/* 		int r = rand(); */
-/* 		random[index] = r; */
-/* 	} */
-
-/* 	worstRunTime = sortArray(worstCase, len); */
-/* 	bestRunTime = sortArray(bestCase, len); */
-/* 	randomRunTime = sortArray(random, len); */
-
-	
-/* 	for(i = 1 ; i < len; i++){ */
-/* 		if(worstCase[i] < worstCase[i-1] || bestCase[i] < bestCase[i-1] || random[i] < random[i-1]){ */
-/* 			printf("Insertion sort failed to sort properly."); */
-/* 			return 0; */
-/* 		} */
-/* 	} */
-/* 	printf("Insertion sort on backwards array len %i:, %f \n", len, worstRunTime); */
-/* 	printf("Insertion sort on sorted array len %i:, %f\n",len,  bestRunTime); */
-/* 	printf("Insertion sort on random array len %i:, %f\n", len, randomRunTime); */
+	int numThreads = atoi(argv[2]); //num threads 2nd arg
+	values = worstCase;
+	float worstRunTime = sortArray(len, numThreads);
+	printf("Insertion sort pthread on backwards array len %i, %i threads: %f s \n", len, numThreads, worstRunTime);
+	values = bestCase;
+	float bestRunTime = sortArray(len, numThreads);
+	printf("Insertion sort pthread on sorted array len %i:, %i threads: %f\n",len, numThreads,bestRunTime);
+	values = random;
+	float randomRunTime = sortArray(len, numThreads);
+	printf("Insertion sort pthread on random array len %i:, %i threads: %f\n", len, numThreads, randomRunTime);
+	free(random);
+	free(worstCase);
+	free(bestCase);
 	
 }

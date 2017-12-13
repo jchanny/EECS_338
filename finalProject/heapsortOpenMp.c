@@ -9,6 +9,7 @@ float sortArray(int values[], int length){
 	int i;
 	struct timeval start_time, stop_time, elapsed_time;
 	gettimeofday(&start_time, NULL);
+#pragma omp parallel
 	//building the heap, starting from the bottom most level
 	for(i = length/2 - 1; i >= 0; i--){
 		heapify(values, i, length);
@@ -19,6 +20,7 @@ float sortArray(int values[], int length){
 		values[i] = swap;
 		heapify(values, 0, i);
 	}
+
 	gettimeofday(&stop_time, NULL);
 	timersub(&stop_time, &start_time, &elapsed_time);
 	return elapsed_time.tv_sec+elapsed_time.tv_usec/100000.0;
@@ -49,17 +51,17 @@ void heapify(int array[], int index, int length){
 }
 
 //main driver of the code
-int main(void){
-
+int main(int argc, char *argv[]){
+	int temp;
 	int index;
-	int len = 1000;
+	int len = atoi(argv[1]); //length of array
 
 	int *worstCase, *bestCase, *random;
 	worstCase = (int*)calloc(len, sizeof(int));
 	bestCase = (int*)calloc(len, sizeof(int));
 	random = (int*)calloc(len, sizeof(int));
 
-	int val = 1000;
+	int val = len;
 	for(index = 0 ; index < len; index++){
 		worstCase[index] = val;
 		val--;
@@ -78,99 +80,13 @@ int main(void){
 	}
 
 	float worstRunTime = sortArray(worstCase, len);
+	printf("heapsort OpenMP on backwards array len %i, threads: %f s \n", len, worstRunTime);
 	float bestRunTime = sortArray(bestCase, len);
+	printf("heapsort OpenMP on sorted array len %i:, threads: %f\n",len, bestRunTime);
 	float randomRunTime = sortArray(random, len);
-
-	int i;
-	for(i = 1 ; i < len; i++){
-		if(worstCase[i] < worstCase[i-1] || bestCase[i] < bestCase[i-1] || random[i] < random[i-1]){
-			printf("heapsort failed to sort properly.");
-			return 0;
-		}
-	}
-	printf("heapsort on backwards array len %i:, %f \n", len, worstRunTime);
-	printf("heapsort on sorted array len %i:, %f\n",len,  bestRunTime);
-	printf("heapsort on random array len %i:, %f\n", len, randomRunTime);
-
-	//running insertion sort on len 2000 arrays
-	len = 2000;
-
-	worstCase = (int*)calloc(len, sizeof(int));
-	bestCase = (int*)calloc(len, sizeof(int));
-	random = (int*)calloc(len, sizeof(int));
-
-	val = 2000;
-	for(index = 0 ; index < len; index++){
-		worstCase[index] = val;
-		val--;
-	}
-
-	val = 1;
-	for(index = 0; index < len ; index++){
-		bestCase[index] = val;
-		val++;
-	}
-
-	srand(time(NULL));
-	for(index = 0; index < len; index++){
-		int r = rand();
-		random[index] = r;
-	}
-
-	worstRunTime = sortArray(worstCase, len);
-	bestRunTime = sortArray(bestCase, len);
-	randomRunTime = sortArray(random, len);
-
-	i;
-	for(i = 1 ; i < len; i++){
-		if(worstCase[i] < worstCase[i-1] || bestCase[i] < bestCase[i-1] || random[i] < random[i-1]){
-			printf("heapsort failed to sort properly.");
-			return 0;
-		}
-	}
-	printf("heapsort on backwards array len %i:, %f \n", len, worstRunTime);
-	printf("heapsort on sorted array len %i:, %f\n",len,  bestRunTime);
-	printf("heapsort on random array len %i:, %f\n", len, randomRunTime);
-
-	//running insertion sort on len 3000 arrays
-	len = 3000;
-
-	worstCase = (int*)calloc(len, sizeof(int));
-	bestCase = (int*)calloc(len, sizeof(int));
-	random = (int*)calloc(len, sizeof(int));
-
-	val = 3000;
-	for(index = 0 ; index < len; index++){
-		worstCase[index] = val;
-		val--;
-	}
-
-	val = 1;
-	for(index = 0; index < len ; index++){
-		bestCase[index] = val;
-		val++;
-	}
-
-	srand(time(NULL));
-	for(index = 0; index < len; index++){
-		int r = rand();
-		random[index] = r;
-	}
-
-	worstRunTime = sortArray(worstCase, len);
-	bestRunTime = sortArray(bestCase, len);
-	randomRunTime = sortArray(random, len);
-
-	i;
-	for(i = 1 ; i < len; i++){
-		if(worstCase[i] < worstCase[i-1] || bestCase[i] < bestCase[i-1] || random[i] < random[i-1]){
-			printf("heapsort failed to sort properly.");
-			return 0;
-		}
-	}
-	printf("heapsort on backwards array len %i:, %f \n", len, worstRunTime);
-	printf("heapsort on sorted array len %i:, %f\n",len,  bestRunTime);
-	printf("heapsort on random array len %i:, %f\n", len, randomRunTime);
-	return 0;
+	printf("heapsort OpenMP on random array len %i:, threads: %f\n", len, randomRunTime);
+	free(random);
+	free(worstCase);
+	free(bestCase);
 }
 
